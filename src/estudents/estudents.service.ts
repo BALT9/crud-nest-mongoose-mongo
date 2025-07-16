@@ -2,25 +2,37 @@ import { Injectable } from '@nestjs/common';
 import { CreateEstudentDto } from './dto/create-estudent.dto';
 import { UpdateEstudentDto } from './dto/update-estudent.dto';
 
+import { InjectModel } from '@nestjs/mongoose';
+import { Estudent } from './schemas/estudent.schema';
+import { Model } from 'mongoose';
+
 @Injectable()
 export class EstudentsService {
-  create(createEstudentDto: CreateEstudentDto) {
-    return 'This action adds a new estudent';
+
+  // injectamos el modelo 
+  constructor(
+    @InjectModel(Estudent.name) private studentModel: Model<Estudent>
+  ) { }
+
+  async create(createEstudentDto: CreateEstudentDto) {
+    // aqui mandamos los datos a la base de datos 
+    const createDStudent = new this.studentModel(createEstudentDto);
+    return createDStudent.save();
   }
 
-  findAll() {
-    return `This action returns all estudents`;
+  async findAll() {
+    return this.studentModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} estudent`;
+  async findOne(id: string) {
+    return this.studentModel.findById(id).exec();
   }
 
-  update(id: number, updateEstudentDto: UpdateEstudentDto) {
-    return `This action updates a #${id} estudent`;
+  async update(id: string, updateEstudentDto: UpdateEstudentDto) {
+    return this.studentModel.findByIdAndUpdate(id, updateEstudentDto, {new: true}).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} estudent`;
+  async remove(id: string) {
+    return this.studentModel.findByIdAndDelete(id).exec();
   }
 }

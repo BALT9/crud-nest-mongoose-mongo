@@ -1,0 +1,28 @@
+GET http://127.0.0.1:3000/api
+
+###
+GET http://127.0.0.1:3000/api/estudents
+
+###
+POST http://127.0.0.1:3000/api/estudents
+Content-Type: application/json
+
+{
+    "name" : "alan",
+    "age": 22
+}
+
+###
+GET http://127.0.0.1:3000/api/estudents/6877c883531ed4ec7b3a375a
+
+###
+PUT http://127.0.0.1:3000/api/estudents/6877c883531ed4ec7b3a375a
+Content-Type: application/json
+
+{
+    "name" : "Soledad Jhovana",
+    "age": 23
+}
+
+###
+DELETE http://127.0.0.1:3000/api/estudents/6877cc5a65e7e03ff2aae835
